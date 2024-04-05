@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulkyBook.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240405150752_FixingTextFormat")]
-    partial class FixingTextFormat
+    [Migration("20240405230902_AddingOrderHeaderAndOrderDetailsToDb")]
+    partial class AddingOrderHeaderAndOrderDetailsToDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -609,6 +609,9 @@ namespace BulkyBook.DataAccess.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -622,10 +625,7 @@ namespace BulkyBook.DataAccess.Migrations
                     b.Property<string>("StreetAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("companyId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("companyId");
+                    b.HasIndex("CompanyId");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
@@ -745,7 +745,7 @@ namespace BulkyBook.DataAccess.Migrations
                 {
                     b.HasOne("BulkyBook.Models.Company", "Company")
                         .WithMany()
-                        .HasForeignKey("companyId");
+                        .HasForeignKey("CompanyId");
 
                     b.Navigation("Company");
                 });
